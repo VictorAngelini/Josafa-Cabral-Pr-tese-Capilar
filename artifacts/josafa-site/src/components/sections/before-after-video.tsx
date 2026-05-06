@@ -98,6 +98,7 @@ export function BeforeAfterVideoSection() {
           <VideoPlayer
             src="/antes-depois.mp4"
             label="Transformação 1 — Estúdio Josafá, Tatuapé"
+            portrait
           />
           <VideoPlayer
             src="/antes-depois-2.mp4"
