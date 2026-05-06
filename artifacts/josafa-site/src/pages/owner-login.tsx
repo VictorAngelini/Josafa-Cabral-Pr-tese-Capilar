@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +8,6 @@ export function OwnerLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [, setLocation] = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +21,7 @@ export function OwnerLogin() {
         body: JSON.stringify({ password }),
       });
       if (res.ok) {
+        sessionStorage.setItem("josafa_owner", "1");
         window.location.href = "/proprietario/agendamentos";
         return;
       } else {

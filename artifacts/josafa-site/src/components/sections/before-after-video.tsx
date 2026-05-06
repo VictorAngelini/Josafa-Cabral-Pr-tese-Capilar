@@ -94,15 +94,20 @@ export function BeforeAfterVideoSection() {
           </p>
         </div>
 
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           <VideoPlayer
             src="/antes-depois.mp4"
             label="Transformação 1 — Estúdio Josafá, Tatuapé"
             portrait
           />
           <VideoPlayer
-            src="/antes-depois-2.mp4"
+            src="/antes-depois-3.mp4"
             label="Transformação 2 — Estúdio Josafá, Tatuapé"
+            portrait
+          />
+          <VideoPlayer
+            src="/antes-depois-2.mp4"
+            label="Transformação 3 — Estúdio Josafá, Tatuapé"
             portrait
           />
         </div>

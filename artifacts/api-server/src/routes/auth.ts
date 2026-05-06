@@ -32,6 +32,8 @@ router.post("/auth/logout", (req, res) => {
 });
 
 router.get("/auth/me", (req, res) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
   const isOwner = !!(req.session as Record<string, unknown>).isOwner;
   res.json({ isOwner });
 });

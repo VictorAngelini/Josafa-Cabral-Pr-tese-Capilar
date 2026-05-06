@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useListAppointments } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { LogOut, Calendar, Clock, User, Phone, Mail, FileText, CheckCircle, XCircle, RefreshCw } from "lucide-react";
+import { LogOut, Calendar, Clock, Phone, Mail, FileText, CheckCircle, XCircle, RefreshCw } from "lucide-react";
 
 type AppointmentStatus = "pending" | "confirmed" | "cancelled" | "completed";
 
@@ -25,18 +25,29 @@ async function updateStatus(id: number, status: AppointmentStatus) {
 export function OwnerDashboard() {
   const [filter, setFilter] = useState<AppointmentStatus | "all">("all");
   const [updatingId, setUpdatingId] = useState<number | null>(null);
-  const [authChecked, setAuthChecked] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const { data: appointments, isLoading, refetch } = useListAppointments();
 
   useEffect(() => {
-    fetch("/api/auth/me", { credentials: "include" })
+    // Primary guard: check sessionStorage (set on successful login)
+    const localAuth = sessionStorage.getItem("josafa_owner");
+    if (localAuth === "1") {
+      setReady(true);
+      return;
+    }
+    // Fallback: verify with server (handles direct URL access)
+    fetch("/api/auth/me", {
+      credentials: "include",
+      headers: { "Cache-Control": "no-cache" },
+    })
       .then((r) => r.json())
       .then((d: { isOwner: boolean }) => {
-        if (!d.isOwner) {
-          window.location.href = "/proprietario";
+        if (d.isOwner) {
+          sessionStorage.setItem("josafa_owner", "1");
+          setReady(true);
         } else {
-          setAuthChecked(true);
+          window.location.href = "/proprietario";
         }
       })
       .catch(() => {
@@ -45,6 +56,7 @@ export function OwnerDashboard() {
   }, []);
 
   const handleLogout = async () => {
+    sessionStorage.removeItem("josafa_owner");
     await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
     window.location.href = "/proprietario";
   };
@@ -55,6 +67,14 @@ export function OwnerDashboard() {
     await refetch();
     setUpdatingId(null);
   };
+
+  if (!ready) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground text-sm">Verificando acesso...</p>
+      </div>
+    );
+  }
 
   const filtered = (appointments ?? []).filter(
     (a) => filter === "all" || a.status === filter
@@ -67,14 +87,6 @@ export function OwnerDashboard() {
     completed: (appointments ?? []).filter((a) => a.status === "completed").length,
     cancelled: (appointments ?? []).filter((a) => a.status === "cancelled").length,
   };
-
-  if (!authChecked) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground text-sm">Verificando acesso...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -116,7 +128,12 @@ export function OwnerDashboard() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {(["pending", "confirmed", "completed", "cancelled"] as AppointmentStatus[]).map((s) => (
-            <div key={s} className="border border-border rounded-lg p-4 text-center cursor-pointer hover:border-primary/50 transition-colors" onClick={() => setFilter(s)} data-testid={`card-stat-${s}`}>
+            <div
+              key={s}
+              className="border border-border rounded-lg p-4 text-center cursor-pointer hover:border-primary/50 transition-colors"
+              onClick={() => setFilter(s)}
+              data-testid={`card-stat-${s}`}
+            >
               <p className="text-2xl font-bold text-primary">{counts[s]}</p>
               <p className="text-xs text-muted-foreground mt-1">{statusConfig[s].label}</p>
             </div>
@@ -149,7 +166,11 @@ export function OwnerDashboard() {
             {filtered.map((appt) => {
               const status = appt.status as AppointmentStatus;
               return (
-                <div key={appt.id} className="border border-border rounded-lg p-5 hover:border-primary/30 transition-colors bg-card" data-testid={`card-appointment-${appt.id}`}>
+                <div
+                  key={appt.id}
+                  className="border border-border rounded-lg p-5 hover:border-primary/30 transition-colors bg-card"
+                  data-testid={`card-appointment-${appt.id}`}
+                >
                   <div className="flex items-start justify-between gap-4 flex-wrap">
                     <div className="flex-1 min-w-0 space-y-3">
                       <div className="flex items-center gap-3 flex-wrap">
