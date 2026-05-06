@@ -46,14 +46,25 @@ const formSchema = z.object({
 });
 
 const timeSlots = [
-  "08:00", "09:00", "10:00", "11:00", "13:00", 
+  "08:00", "09:00", "10:00", "11:00", "13:00",
   "14:00", "15:00", "16:00", "17:00", "18:00"
 ];
+
+function isSunday(date: Date) {
+  return date.getDay() === 0;
+}
+
+function isPast(date: Date) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date < today;
+}
 
 export function BookingSection() {
   const { data: services, isLoading: isLoadingServices } = useListServices();
   const createAppointment = useCreateAppointment();
   const [isSuccess, setIsSuccess] = useState(false);
+  const [bookingError, setBookingError] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,13 +79,14 @@ export function BookingSection() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setBookingError("");
     createAppointment.mutate({
       data: {
         name: values.name,
         phone: values.phone,
         email: values.email,
         serviceId: values.serviceId,
-        preferredDate: values.preferredDate.toISOString(),
+        preferredDate: format(values.preferredDate, "dd/MM/yyyy"),
         preferredTime: values.preferredTime,
         notes: values.notes,
       }
@@ -82,7 +94,15 @@ export function BookingSection() {
       onSuccess: () => {
         setIsSuccess(true);
         form.reset();
-      }
+      },
+      onError: (err: unknown) => {
+        const msg = (err as { data?: { error?: string } })?.data?.error;
+        if (msg) {
+          setBookingError(msg);
+        } else {
+          setBookingError("Erro ao enviar agendamento. Tente novamente.");
+        }
+      },
     });
   }
 
@@ -104,7 +124,7 @@ export function BookingSection() {
               <p className="text-muted-foreground mb-8">
                 Recebemos suas informações. Em breve, nossa equipe entrará em contato para confirmar os detalhes e garantir que sua experiência seja perfeita.
               </p>
-              <Button 
+              <Button
                 onClick={() => setIsSuccess(false)}
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
@@ -123,7 +143,7 @@ export function BookingSection() {
                       <FormItem>
                         <FormLabel>Nome Completo</FormLabel>
                         <FormControl>
-                          <Input placeholder="Seu nome" {...field} className="bg-background" />
+                          <Input placeholder="Seu nome" {...field} className="bg-background" data-testid="input-name" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -136,7 +156,7 @@ export function BookingSection() {
                       <FormItem>
                         <FormLabel>Telefone / WhatsApp</FormLabel>
                         <FormControl>
-                          <Input placeholder="(11) 90000-0000" {...field} className="bg-background" />
+                          <Input placeholder="(11) 90000-0000" {...field} className="bg-background" data-testid="input-phone" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -151,7 +171,7 @@ export function BookingSection() {
                     <FormItem>
                       <FormLabel>E-mail</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="seu@email.com" {...field} className="bg-background" />
+                        <Input type="email" placeholder="seu@email.com" {...field} className="bg-background" data-testid="input-email" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -166,7 +186,7 @@ export function BookingSection() {
                       <FormLabel>Serviço Desejado</FormLabel>
                       <Select onValueChange={(val) => field.onChange(Number(val))} value={field.value ? String(field.value) : undefined}>
                         <FormControl>
-                          <SelectTrigger className="bg-background">
+                          <SelectTrigger className="bg-background" data-testid="select-service">
                             <SelectValue placeholder={isLoadingServices ? "Carregando serviços..." : "Selecione um serviço"} />
                           </SelectTrigger>
                         </FormControl>
@@ -195,6 +215,7 @@ export function BookingSection() {
                             <FormControl>
                               <Button
                                 variant={"outline"}
+                                data-testid="button-date-picker"
                                 className={cn(
                                   "w-full pl-3 text-left font-normal bg-background",
                                   !field.value && "text-muted-foreground"
@@ -213,15 +234,17 @@ export function BookingSection() {
                             <Calendar
                               mode="single"
                               selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date < new Date() || date < new Date("1900-01-01")
-                              }
+                              onSelect={(date) => {
+                                field.onChange(date);
+                                form.setValue("preferredTime", "");
+                              }}
+                              disabled={(date) => isPast(date) || isSunday(date)}
                               initialFocus
                               locale={ptBR}
                             />
                           </PopoverContent>
                         </Popover>
+                        <p className="text-xs text-muted-foreground mt-1">Atendemos de segunda a sábado</p>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -233,9 +256,9 @@ export function BookingSection() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Horário de Preferência</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
-                            <SelectTrigger className="bg-background">
+                            <SelectTrigger className="bg-background" data-testid="select-time">
                               <SelectValue placeholder="Selecione um horário" />
                             </SelectTrigger>
                           </FormControl>
@@ -263,6 +286,7 @@ export function BookingSection() {
                         <Textarea
                           placeholder="Conte-nos um pouco sobre o que você busca ou se tem alguma dúvida específica..."
                           className="resize-none bg-background min-h-[100px]"
+                          data-testid="textarea-notes"
                           {...field}
                         />
                       </FormControl>
@@ -271,10 +295,17 @@ export function BookingSection() {
                   )}
                 />
 
-                <Button 
-                  type="submit" 
+                {bookingError && (
+                  <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3 text-sm text-destructive text-center" data-testid="text-booking-error">
+                    {bookingError}
+                  </div>
+                )}
+
+                <Button
+                  type="submit"
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-lg py-6"
                   disabled={createAppointment.isPending}
+                  data-testid="button-submit-booking"
                 >
                   {createAppointment.isPending ? (
                     <>

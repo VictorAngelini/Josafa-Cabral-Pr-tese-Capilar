@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { appointmentsTable, servicesTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { eq, and, ne } from "drizzle-orm";
 import {
   CreateAppointmentBody,
   UpdateAppointmentStatusBody,
@@ -61,10 +61,41 @@ router.post("/appointments", async (req, res) => {
   }
   const body = parsed.data;
 
+  // Parse date string in dd/MM/yyyy format
+  let appointmentDate: Date;
+  const dateParts = body.preferredDate.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (dateParts) {
+    appointmentDate = new Date(Number(dateParts[3]), Number(dateParts[2]) - 1, Number(dateParts[1]));
+  } else {
+    appointmentDate = new Date(body.preferredDate);
+  }
+
+  // Block Sundays (0 = Sunday)
+  if (appointmentDate.getDay() === 0) {
+    return res.status(422).json({ error: "Não realizamos atendimentos aos domingos. Por favor, escolha outro dia." });
+  }
+
   try {
     const service = await db.select().from(servicesTable).where(eq(servicesTable.id, body.serviceId)).limit(1);
     if (!service.length) {
       return res.status(400).json({ error: "Service not found" });
+    }
+
+    // Block duplicate slot: same date + same time (excluding cancelled appointments)
+    const existing = await db
+      .select({ id: appointmentsTable.id })
+      .from(appointmentsTable)
+      .where(
+        and(
+          eq(appointmentsTable.preferredDate, body.preferredDate),
+          eq(appointmentsTable.preferredTime, body.preferredTime),
+          ne(appointmentsTable.status, "cancelled")
+        )
+      )
+      .limit(1);
+
+    if (existing.length > 0) {
+      return res.status(409).json({ error: "Este horário já está reservado. Por favor, escolha outro horário ou data." });
     }
 
     const [appt] = await db.insert(appointmentsTable).values({
