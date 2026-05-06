@@ -17,8 +17,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-serif font-bold text-black tracking-tight">Josafá</span>
-            <span className="hidden sm:inline-block text-sm font-medium text-black uppercase tracking-widest pt-1">Hair & Prótese Capilar</span>
+            <span className="text-2xl font-bold text-black uppercase tracking-widest">Josafá</span>
+            <span className="hidden sm:inline-block text-sm font-bold text-black uppercase tracking-widest pt-1">Hair & Prótese Capilar</span>
           </Link>
           
           <nav className="hidden md:flex items-center gap-8">
