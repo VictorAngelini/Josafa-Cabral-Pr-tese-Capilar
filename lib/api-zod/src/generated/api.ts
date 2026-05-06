@@ -93,6 +93,34 @@ export const UpdateAppointmentStatusResponse = zod.object({
 });
 
 /**
+ * @summary List all blocked slots
+ */
+export const ListBlockedSlotsResponseItem = zod.object({
+  id: zod.number(),
+  date: zod.string(),
+  time: zod.string().nullish(),
+  reason: zod.string().nullish(),
+  createdAt: zod.string(),
+});
+export const ListBlockedSlotsResponse = zod.array(ListBlockedSlotsResponseItem);
+
+/**
+ * @summary Create a blocked slot
+ */
+export const CreateBlockedSlotBody = zod.object({
+  date: zod.string(),
+  time: zod.string().nullish(),
+  reason: zod.string().nullish(),
+});
+
+/**
+ * @summary Delete a blocked slot
+ */
+export const DeleteBlockedSlotParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
  * @summary List all services
  */
 export const ListServicesResponseItem = zod.object({

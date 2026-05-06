@@ -19,7 +19,9 @@ import type {
 import type {
   Appointment,
   AppointmentStats,
+  BlockedSlot,
   CreateAppointmentBody,
+  CreateBlockedSlotBody,
   ErrorResponse,
   HealthStatus,
   Service,
@@ -445,6 +447,251 @@ export const useUpdateAppointmentStatus = <
   TContext
 > => {
   return useMutation(getUpdateAppointmentStatusMutationOptions(options));
+};
+
+/**
+ * @summary List all blocked slots
+ */
+export const getListBlockedSlotsUrl = () => {
+  return `/api/blocked-slots`;
+};
+
+export const listBlockedSlots = async (
+  options?: RequestInit,
+): Promise<BlockedSlot[]> => {
+  return customFetch<BlockedSlot[]>(getListBlockedSlotsUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getListBlockedSlotsQueryKey = () => {
+  return [`/api/blocked-slots`] as const;
+};
+
+export const getListBlockedSlotsQueryOptions = <
+  TData = Awaited<ReturnType<typeof listBlockedSlots>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listBlockedSlots>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getListBlockedSlotsQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof listBlockedSlots>>
+  > = ({ signal }) => listBlockedSlots({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listBlockedSlots>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListBlockedSlotsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listBlockedSlots>>
+>;
+export type ListBlockedSlotsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List all blocked slots
+ */
+
+export function useListBlockedSlots<
+  TData = Awaited<ReturnType<typeof listBlockedSlots>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listBlockedSlots>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListBlockedSlotsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Create a blocked slot
+ */
+export const getCreateBlockedSlotUrl = () => {
+  return `/api/blocked-slots`;
+};
+
+export const createBlockedSlot = async (
+  createBlockedSlotBody: CreateBlockedSlotBody,
+  options?: RequestInit,
+): Promise<BlockedSlot> => {
+  return customFetch<BlockedSlot>(getCreateBlockedSlotUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(createBlockedSlotBody),
+  });
+};
+
+export const getCreateBlockedSlotMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createBlockedSlot>>,
+    TError,
+    { data: BodyType<CreateBlockedSlotBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createBlockedSlot>>,
+  TError,
+  { data: BodyType<CreateBlockedSlotBody> },
+  TContext
+> => {
+  const mutationKey = ["createBlockedSlot"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createBlockedSlot>>,
+    { data: BodyType<CreateBlockedSlotBody> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createBlockedSlot(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateBlockedSlotMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createBlockedSlot>>
+>;
+export type CreateBlockedSlotMutationBody = BodyType<CreateBlockedSlotBody>;
+export type CreateBlockedSlotMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Create a blocked slot
+ */
+export const useCreateBlockedSlot = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createBlockedSlot>>,
+    TError,
+    { data: BodyType<CreateBlockedSlotBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createBlockedSlot>>,
+  TError,
+  { data: BodyType<CreateBlockedSlotBody> },
+  TContext
+> => {
+  return useMutation(getCreateBlockedSlotMutationOptions(options));
+};
+
+/**
+ * @summary Delete a blocked slot
+ */
+export const getDeleteBlockedSlotUrl = (id: number) => {
+  return `/api/blocked-slots/${id}`;
+};
+
+export const deleteBlockedSlot = async (
+  id: number,
+  options?: RequestInit,
+): Promise<void> => {
+  return customFetch<void>(getDeleteBlockedSlotUrl(id), {
+    ...options,
+    method: "DELETE",
+  });
+};
+
+export const getDeleteBlockedSlotMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteBlockedSlot>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteBlockedSlot>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const mutationKey = ["deleteBlockedSlot"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteBlockedSlot>>,
+    { id: number }
+  > = (props) => {
+    const { id } = props ?? {};
+
+    return deleteBlockedSlot(id, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteBlockedSlotMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteBlockedSlot>>
+>;
+
+export type DeleteBlockedSlotMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Delete a blocked slot
+ */
+export const useDeleteBlockedSlot = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteBlockedSlot>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof deleteBlockedSlot>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  return useMutation(getDeleteBlockedSlotMutationOptions(options));
 };
 
 /**

@@ -73,6 +73,20 @@ export interface AppointmentStats {
   cancelled: number;
 }
 
+export interface BlockedSlot {
+  id: number;
+  date: string;
+  time?: string | null;
+  reason?: string | null;
+  createdAt: string;
+}
+
+export interface CreateBlockedSlotBody {
+  date: string;
+  time?: string | null;
+  reason?: string | null;
+}
+
 export interface ErrorResponse {
   error: string;
 }

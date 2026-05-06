@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { appointmentsTable, servicesTable } from "@workspace/db";
-import { eq, and, ne } from "drizzle-orm";
+import { appointmentsTable, servicesTable, blockedSlotsTable } from "@workspace/db";
+import { eq, and, ne, or, isNull } from "drizzle-orm";
 import {
   CreateAppointmentBody,
   UpdateAppointmentStatusBody,
@@ -79,6 +79,25 @@ router.post("/appointments", async (req, res) => {
     const service = await db.select().from(servicesTable).where(eq(servicesTable.id, body.serviceId)).limit(1);
     if (!service.length) {
       return res.status(400).json({ error: "Service not found" });
+    }
+
+    // Block if the date or date+time is manually blocked by the owner
+    const blocked = await db
+      .select({ id: blockedSlotsTable.id })
+      .from(blockedSlotsTable)
+      .where(
+        and(
+          eq(blockedSlotsTable.date, body.preferredDate),
+          or(
+            isNull(blockedSlotsTable.time),
+            eq(blockedSlotsTable.time, body.preferredTime)
+          )
+        )
+      )
+      .limit(1);
+
+    if (blocked.length > 0) {
+      return res.status(409).json({ error: "Este dia ou horário não está disponível para agendamento. Por favor, escolha outra data ou horário." });
     }
 
     // Block duplicate slot: same date + same time (excluding cancelled appointments)

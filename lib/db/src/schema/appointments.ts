@@ -23,7 +23,16 @@ export const appointmentsTable = pgTable("appointments", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const blockedSlotsTable = pgTable("blocked_slots", {
+  id: serial("id").primaryKey(),
+  date: text("date").notNull(),
+  time: text("time"),
+  reason: text("reason"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const insertAppointmentSchema = createInsertSchema(appointmentsTable).omit({ id: true, createdAt: true });
 export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
 export type Appointment = typeof appointmentsTable.$inferSelect;
 export type Service = typeof servicesTable.$inferSelect;
+export type BlockedSlot = typeof blockedSlotsTable.$inferSelect;

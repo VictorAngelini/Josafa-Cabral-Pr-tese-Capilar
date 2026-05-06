@@ -115,6 +115,53 @@ paths:
               schema:
                 $ref: "#/components/schemas/Appointment"
 
+  /blocked-slots:
+    get:
+      operationId: listBlockedSlots
+      tags: [appointments]
+      summary: List all blocked slots
+      responses:
+        "200":
+          description: List of blocked slots
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BlockedSlot"
+    post:
+      operationId: createBlockedSlot
+      tags: [appointments]
+      summary: Create a blocked slot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBlockedSlotBody"
+      responses:
+        "201":
+          description: Blocked slot created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlockedSlot"
+
+  /blocked-slots/{id}:
+    delete:
+      operationId: deleteBlockedSlot
+      tags: [appointments]
+      summary: Delete a blocked slot
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
   /services:
     get:
       operationId: listServices
@@ -266,6 +313,40 @@ components:
         - confirmed
         - completed
         - cancelled
+
+    BlockedSlot:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+        time:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+      required:
+        - id
+        - date
+        - createdAt
+
+    CreateBlockedSlotBody:
+      type: object
+      properties:
+        date:
+          type: string
+        time:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+      required:
+        - date
 
     ErrorResponse:
       type: object
