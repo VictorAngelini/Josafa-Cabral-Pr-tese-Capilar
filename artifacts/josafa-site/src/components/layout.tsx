@@ -36,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </Button>
             <Link
               href="/proprietario"
-              className="text-xs text-muted-foreground hover:text-primary transition-colors px-2 py-1 border border-border rounded-none hover:border-primary/50"
+              className="inline-flex items-center justify-center text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-6 h-10"
               data-testid="link-owner-area"
             >
               Proprietário
