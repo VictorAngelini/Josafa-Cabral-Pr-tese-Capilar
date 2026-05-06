@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { useListAppointments } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { LogOut, Calendar, Clock, Phone, Mail, FileText, CheckCircle, XCircle, RefreshCw } from "lucide-react";
+import { LogOut, Calendar, Clock, Phone, Mail, FileText, CheckCircle, XCircle, RefreshCw, MessageCircle } from "lucide-react";
+
+function formatWhatsAppUrl(phone: string, name: string, service: string, date: string, time: string): string {
+  const digits = phone.replace(/\D/g, "");
+  const number = digits.startsWith("55") ? digits : `55${digits}`;
+  const message = `Olá ${name}, tudo bem? Sou o Josafá do estúdio Hair & Prótese Capilar. Estou entrando em contato sobre o seu agendamento de *${service}* para o dia *${date}* às *${time}*. Podemos confirmar?`;
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+}
 
 type AppointmentStatus = "pending" | "confirmed" | "cancelled" | "completed";
 
@@ -194,46 +201,63 @@ export function OwnerDashboard() {
                       )}
                     </div>
 
-                    {status !== "completed" && status !== "cancelled" && (
-                      <div className="flex flex-col gap-2 shrink-0">
-                        {status === "pending" && (
-                          <Button
-                            size="sm"
-                            onClick={() => handleStatusChange(appt.id, "confirmed")}
-                            disabled={updatingId === appt.id}
-                            data-testid={`button-confirm-${appt.id}`}
-                            className="rounded-none text-xs h-8 bg-primary text-primary-foreground"
-                          >
-                            <CheckCircle className="w-3.5 h-3.5 mr-1.5" />
-                            Confirmar
-                          </Button>
-                        )}
-                        {status === "confirmed" && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleStatusChange(appt.id, "completed")}
-                            disabled={updatingId === appt.id}
-                            data-testid={`button-complete-${appt.id}`}
-                            className="rounded-none text-xs h-8"
-                          >
-                            <CheckCircle className="w-3.5 h-3.5 mr-1.5" />
-                            Concluir
-                          </Button>
-                        )}
+                    <div className="flex flex-col gap-2 shrink-0">
+                      <a
+                        href={formatWhatsAppUrl(appt.phone, appt.name, appt.serviceName ?? "", appt.preferredDate, appt.preferredTime)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        data-testid={`button-whatsapp-${appt.id}`}
+                      >
                         <Button
                           size="sm"
-                          variant="ghost"
-                          onClick={() => handleStatusChange(appt.id, "cancelled")}
-                          disabled={updatingId === appt.id}
-                          data-testid={`button-cancel-${appt.id}`}
-                          className="rounded-none text-xs h-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          variant="outline"
+                          className="rounded-none text-xs h-8 w-full border-green-600 text-green-700 hover:bg-green-50 hover:text-green-800"
                         >
-                          <XCircle className="w-3.5 h-3.5 mr-1.5" />
-                          Cancelar
+                          <MessageCircle className="w-3.5 h-3.5 mr-1.5" />
+                          WhatsApp
                         </Button>
-                      </div>
-                    )}
+                      </a>
+                      {status !== "completed" && status !== "cancelled" && (
+                        <>
+                          {status === "pending" && (
+                            <Button
+                              size="sm"
+                              onClick={() => handleStatusChange(appt.id, "confirmed")}
+                              disabled={updatingId === appt.id}
+                              data-testid={`button-confirm-${appt.id}`}
+                              className="rounded-none text-xs h-8 bg-primary text-primary-foreground"
+                            >
+                              <CheckCircle className="w-3.5 h-3.5 mr-1.5" />
+                              Confirmar
+                            </Button>
+                          )}
+                          {status === "confirmed" && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleStatusChange(appt.id, "completed")}
+                              disabled={updatingId === appt.id}
+                              data-testid={`button-complete-${appt.id}`}
+                              className="rounded-none text-xs h-8"
+                            >
+                              <CheckCircle className="w-3.5 h-3.5 mr-1.5" />
+                              Concluir
+                            </Button>
+                          )}
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleStatusChange(appt.id, "cancelled")}
+                            disabled={updatingId === appt.id}
+                            data-testid={`button-cancel-${appt.id}`}
+                            className="rounded-none text-xs h-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            <XCircle className="w-3.5 h-3.5 mr-1.5" />
+                            Cancelar
+                          </Button>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
