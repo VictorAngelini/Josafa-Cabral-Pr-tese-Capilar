@@ -74,7 +74,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 </li>
                 <li className="flex items-start gap-3 text-primary-foreground/80">
                   <Instagram className="w-5 h-5 mt-0.5 text-secondary shrink-0" />
-                  <a href="#" className="hover:text-secondary transition-colors">@josafahair</a>
+                  <a href="https://instagram.com/josafacabralprotesecapilar" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">@josafacabralprotesecapilar</a>
                 </li>
               </ul>
             </div>
