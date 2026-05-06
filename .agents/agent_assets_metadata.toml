@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "GTtLiBLpHmuEf9HUhJzaZ"
+uri = "file://artifacts/josafa-site/public/hero.png"
+type = "image"
+title = "Hero studio interior"
+
+[[generated]]
+id = "QbWFkPoqNNhKEHY96RDj2"
+uri = "file://artifacts/josafa-site/public/about.png"
+type = "image"
+title = "Professional consultation"
