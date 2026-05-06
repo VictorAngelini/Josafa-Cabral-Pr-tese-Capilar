@@ -27,12 +27,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <button onClick={() => scrollTo("contato")} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Contato</button>
           </nav>
 
-          <Button 
-            onClick={() => scrollTo("agendamento")}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-6"
-          >
-            Agendar
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button 
+              onClick={() => scrollTo("agendamento")}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-6"
+            >
+              Agendar
+            </Button>
+            <Link
+              href="/proprietario"
+              className="text-xs text-muted-foreground hover:text-primary transition-colors px-2 py-1 border border-border rounded-none hover:border-primary/50"
+              data-testid="link-owner-area"
+            >
+              Proprietário
+            </Link>
+          </div>
         </div>
       </header>
 
