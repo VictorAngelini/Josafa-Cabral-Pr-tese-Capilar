@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 
-function VideoPlayer({ src, label }: { src: string; label: string }) {
+function VideoPlayer({ src, label, portrait = false }: { src: string; label: string; portrait?: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -24,11 +24,11 @@ function VideoPlayer({ src, label }: { src: string; label: string }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative rounded-2xl overflow-hidden shadow-xl bg-primary/5 group">
+      <div className={`relative rounded-2xl overflow-hidden shadow-xl bg-black group ${portrait ? "aspect-[9/16] max-w-xs mx-auto w-full" : "aspect-video w-full"}`}>
         <video
           ref={videoRef}
           src={src}
-          className="w-full aspect-video object-cover"
+          className="w-full h-full object-contain"
           muted
           playsInline
           loop
@@ -102,6 +102,7 @@ export function BeforeAfterVideoSection() {
           <VideoPlayer
             src="/antes-depois-2.mp4"
             label="Transformação 2 — Estúdio Josafá, Tatuapé"
+            portrait
           />
         </div>
       </div>
