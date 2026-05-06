@@ -23,7 +23,8 @@ export function OwnerLogin() {
         body: JSON.stringify({ password }),
       });
       if (res.ok) {
-        setLocation("/proprietario/agendamentos");
+        window.location.href = "/proprietario/agendamentos";
+        return;
       } else {
         const data = await res.json() as { error: string };
         setError(data.error ?? "Senha incorreta");

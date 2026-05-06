@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
 import { useListAppointments } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,9 +23,9 @@ async function updateStatus(id: number, status: AppointmentStatus) {
 }
 
 export function OwnerDashboard() {
-  const [, setLocation] = useLocation();
   const [filter, setFilter] = useState<AppointmentStatus | "all">("all");
   const [updatingId, setUpdatingId] = useState<number | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
 
   const { data: appointments, isLoading, refetch } = useListAppointments();
 
@@ -34,14 +33,20 @@ export function OwnerDashboard() {
     fetch("/api/auth/me", { credentials: "include" })
       .then((r) => r.json())
       .then((d: { isOwner: boolean }) => {
-        if (!d.isOwner) setLocation("/proprietario");
+        if (!d.isOwner) {
+          window.location.href = "/proprietario";
+        } else {
+          setAuthChecked(true);
+        }
       })
-      .catch(() => setLocation("/proprietario"));
-  }, [setLocation]);
+      .catch(() => {
+        window.location.href = "/proprietario";
+      });
+  }, []);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
-    setLocation("/proprietario");
+    window.location.href = "/proprietario";
   };
 
   const handleStatusChange = async (id: number, status: AppointmentStatus) => {
@@ -62,6 +67,14 @@ export function OwnerDashboard() {
     completed: (appointments ?? []).filter((a) => a.status === "completed").length,
     cancelled: (appointments ?? []).filter((a) => a.status === "cancelled").length,
   };
+
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground text-sm">Verificando acesso...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
