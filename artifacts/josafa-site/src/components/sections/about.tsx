@@ -24,7 +24,7 @@ export function AboutSection() {
             
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                No Josafá Hair & Prótese Capilar, entendemos que a perda de cabelo vai muito além da aparência física. Ela afeta a forma como nos vemos e como nos apresentamos ao mundo.
+                No Josafá Cabral Prótese Capilar, entendemos que a perda de cabelo vai muito além da aparência física. Ela afeta a forma como nos vemos e como nos apresentamos ao mundo.
               </p>
               <p>
                 Nosso estúdio foi concebido para ser um santuário de discrição e elegância. Diferente de salões tradicionais, aqui você encontra um ambiente reservado, onde cada atendimento é tratado com o máximo de respeito, empatia e especialização técnica.

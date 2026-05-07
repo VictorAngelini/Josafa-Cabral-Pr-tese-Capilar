@@ -17,8 +17,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-black uppercase tracking-widest" style={{ fontFamily: "'Cinzel', serif" }}>Josafá</span>
-            <span className="hidden sm:inline-block text-xs font-semibold text-black uppercase tracking-widest pt-1" style={{ fontFamily: "'Cinzel', serif" }}>Hair & Prótese Capilar</span>
+            <span className="text-2xl font-bold text-black uppercase tracking-widest" style={{ fontFamily: "'Cinzel', serif" }}>Josafá Cabral</span>
+            <span className="hidden sm:inline-block text-xs font-semibold text-black uppercase tracking-widest pt-1" style={{ fontFamily: "'Cinzel', serif" }}>Prótese Capilar</span>
           </Link>
           
           <nav className="hidden md:flex items-center gap-8">
@@ -54,8 +54,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div className="space-y-6">
               <div>
-                <h3 className="text-2xl font-serif font-bold tracking-tight mb-1">Josafá</h3>
-                <p className="text-secondary uppercase tracking-widest text-xs font-medium">Hair & Prótese Capilar</p>
+                <h3 className="text-2xl font-serif font-bold tracking-tight mb-1">Josafá Cabral</h3>
+                <p className="text-secondary uppercase tracking-widest text-xs font-medium">Prótese Capilar</p>
               </div>
               <p className="text-primary-foreground/70 text-sm leading-relaxed pr-4">
                 Especialistas em transformar vidas através da arte da prótese capilar. Um ambiente reservado, focado na sua autoestima.
@@ -108,7 +108,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="pt-8 border-t border-primary-foreground/10 text-center text-primary-foreground/50 text-sm">
-            <p>&copy; {new Date().getFullYear()} Josafá Hair & Prótese Capilar. Todos os direitos reservados.</p>
+            <p>&copy; {new Date().getFullYear()} Josafá Cabral Prótese Capilar. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

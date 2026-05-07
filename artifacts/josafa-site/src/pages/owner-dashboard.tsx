@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 function formatWhatsAppUrl(phone: string, name: string, service: string, date: string, time: string): string {
   const digits = phone.replace(/\D/g, "");
   const number = digits.startsWith("55") ? digits : `55${digits}`;
-  const message = `Olá ${name}, tudo bem? Sou o Josafá do estúdio Hair & Prótese Capilar. Estou entrando em contato sobre o seu agendamento de *${service}* para o dia *${date}* às *${time}*. Podemos confirmar?`;
+  const message = `Olá ${name}, tudo bem? Sou o Josafá Cabral do estúdio Josafá Cabral Prótese Capilar. Estou entrando em contato sobre o seu agendamento de *${service}* para o dia *${date}* às *${time}*. Podemos confirmar?`;
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 

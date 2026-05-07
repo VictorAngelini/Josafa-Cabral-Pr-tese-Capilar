@@ -1,80 +1,20 @@
-import { useRef, useState } from "react";
-import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { ImagePlus, VideoIcon } from "lucide-react";
 
-function VideoPlayer({ src, label, portrait = false }: { src: string; label: string; portrait?: boolean }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
+type MediaType = "video" | "photo";
 
-  const togglePlay = () => {
-    if (!videoRef.current) return;
-    if (playing) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
-    setPlaying(!playing);
-  };
-
-  const toggleMute = () => {
-    if (!videoRef.current) return;
-    videoRef.current.muted = !muted;
-    setMuted(!muted);
-  };
-
+function MediaPlaceholder({ index, type }: { index: number; type: MediaType }) {
   return (
     <div className="flex flex-col gap-3">
-      <div className={`relative rounded-2xl overflow-hidden shadow-xl bg-black group ${portrait ? "aspect-[9/16] max-w-xs mx-auto w-full" : "aspect-video w-full"}`}>
-        <video
-          ref={videoRef}
-          src={src}
-          className="w-full h-full object-contain"
-          muted
-          playsInline
-          loop
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
-          data-testid={`video-${label}`}
-        />
-
-        <div className="absolute inset-0 flex items-center justify-center">
-          <button
-            onClick={togglePlay}
-            data-testid={`button-play-${label}`}
-            className="rounded-full bg-background/90 shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-background opacity-90 group-hover:opacity-100"
-            style={{ width: 64, height: 64 }}
-            aria-label={playing ? "Pausar vídeo" : "Reproduzir vídeo"}
-          >
-            {playing ? (
-              <Pause className="w-6 h-6 text-primary fill-primary" />
-            ) : (
-              <Play className="w-6 h-6 text-primary fill-primary ml-1" />
-            )}
-          </button>
-        </div>
-
-        <div className="absolute bottom-3 right-3">
-          <button
-            onClick={toggleMute}
-            data-testid={`button-mute-${label}`}
-            className="w-9 h-9 rounded-full bg-background/80 flex items-center justify-center hover:bg-background transition-colors"
-            aria-label={muted ? "Ativar som" : "Silenciar"}
-          >
-            {muted ? (
-              <VolumeX className="w-4 h-4 text-primary" />
-            ) : (
-              <Volume2 className="w-4 h-4 text-primary" />
-            )}
-          </button>
-        </div>
-
-        {!playing && (
-          <div className="absolute inset-0 bg-primary/10 pointer-events-none" />
+      <div className="relative aspect-[9/16] max-w-xs mx-auto w-full rounded-2xl overflow-hidden border-2 border-dashed border-border bg-card flex flex-col items-center justify-center gap-3 shadow-sm">
+        {type === "video" ? (
+          <VideoIcon className="w-10 h-10 text-muted-foreground/40" />
+        ) : (
+          <ImagePlus className="w-10 h-10 text-muted-foreground/40" />
         )}
+        <p className="text-xs text-muted-foreground/50 text-center px-4">
+          {type === "video" ? "Vídeo" : "Foto"} {index} — em breve
+        </p>
       </div>
-      <p className="text-center text-muted-foreground text-xs italic">
-        {label}
-      </p>
     </div>
   );
 }
@@ -95,21 +35,9 @@ export function BeforeAfterVideoSection() {
         </div>
 
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <VideoPlayer
-            src="/antes-depois.mp4"
-            label="Transformação 1 — Estúdio Josafá, Tatuapé"
-            portrait
-          />
-          <VideoPlayer
-            src="/antes-depois-3.mp4"
-            label="Transformação 2 — Estúdio Josafá, Tatuapé"
-            portrait
-          />
-          <VideoPlayer
-            src="/antes-depois-2.mp4"
-            label="Transformação 3 — Estúdio Josafá, Tatuapé"
-            portrait
-          />
+          <MediaPlaceholder index={1} type="video" />
+          <MediaPlaceholder index={2} type="photo" />
+          <MediaPlaceholder index={3} type="video" />
         </div>
       </div>
     </section>

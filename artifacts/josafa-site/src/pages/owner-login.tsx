@@ -43,7 +43,7 @@ export function OwnerLogin() {
             <Lock className="w-6 h-6 text-primary" />
           </div>
           <h1 className="text-3xl font-serif font-bold text-primary">Área do Proprietário</h1>
-          <p className="text-muted-foreground mt-2 text-sm">Josafá - Hair & Prótese Capilar</p>
+          <p className="text-muted-foreground mt-2 text-sm">Josafá Cabral Prótese Capilar</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5" data-testid="form-owner-login">
