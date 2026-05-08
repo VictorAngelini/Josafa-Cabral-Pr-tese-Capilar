@@ -4,6 +4,7 @@ import { ServicesSection } from "@/components/sections/services";
 import { HowItWorksSection } from "@/components/sections/how-it-works";
 import { BookingSection } from "@/components/sections/booking";
 import { BeforeAfterVideoSection } from "@/components/sections/before-after-video";
+import { CursoSection } from "@/components/sections/curso";
 
 export function Home() {
   return (
@@ -11,6 +12,7 @@ export function Home() {
       <HeroSection />
       <AboutSection />
       <BeforeAfterVideoSection />
+      <CursoSection />
       <HowItWorksSection />
       <ServicesSection />
       <BookingSection />

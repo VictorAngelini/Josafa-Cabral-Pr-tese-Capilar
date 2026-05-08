@@ -24,6 +24,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <nav className="hidden md:flex items-center gap-8">
             <button onClick={() => scrollTo("sobre")} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Sobre</button>
             <button onClick={() => scrollTo("servicos")} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Serviços</button>
+            <button onClick={() => scrollTo("curso")} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Nosso Curso</button>
             <button onClick={() => scrollTo("contato")} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Contato</button>
           </nav>
 
