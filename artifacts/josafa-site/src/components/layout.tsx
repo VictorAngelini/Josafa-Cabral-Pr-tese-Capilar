@@ -48,7 +48,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </Button>
             <Link
               href="/proprietario"
-              className="hidden md:inline-flex items-center justify-center text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-6 h-10"
+              className="inline-flex items-center justify-center text-xs md:text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-3 md:px-6 h-9 md:h-10"
               data-testid="link-owner-area"
             >
               Proprietário
