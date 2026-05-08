@@ -110,7 +110,7 @@ export function BookingSection() {
     <section id="agendamento" className="py-24 bg-background">
       <div className="container px-4 md:px-6 mx-auto max-w-4xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif text-primary font-semibold mb-4">Agende sua Consulta</h2>
+          <h2 className="text-3xl md:text-4xl font-serif text-primary font-semibold mb-4">Agende a Sua Avaliação</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Dê o primeiro passo para resgatar sua autoestima. Preencha o formulário abaixo e nossa equipe entrará em contato para confirmar seu horário.
           </p>

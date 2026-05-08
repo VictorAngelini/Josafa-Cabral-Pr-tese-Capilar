@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Play, Pause, Volume2, VolumeX, ImagePlus } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 
 function VideoPlayer({ src, label }: { src: string; label: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -8,11 +8,7 @@ function VideoPlayer({ src, label }: { src: string; label: string }) {
 
   const togglePlay = () => {
     if (!videoRef.current) return;
-    if (playing) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
+    if (playing) { videoRef.current.pause(); } else { videoRef.current.play(); }
     setPlaying(!playing);
   };
 
@@ -71,13 +67,17 @@ function VideoPlayer({ src, label }: { src: string; label: string }) {
   );
 }
 
-function MediaPlaceholder() {
+function PhotoCard({ src, label }: { src: string; label: string }) {
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative aspect-[9/16] max-w-xs mx-auto w-full rounded-2xl overflow-hidden border-2 border-dashed border-border bg-card flex flex-col items-center justify-center gap-3 shadow-sm">
-        <ImagePlus className="w-10 h-10 text-muted-foreground/40" />
-        <p className="text-xs text-muted-foreground/50 text-center px-4">Em breve</p>
+      <div className="rounded-2xl overflow-hidden shadow-xl bg-black">
+        <img
+          src={src}
+          alt={label}
+          className="w-full h-full object-cover"
+        />
       </div>
+      <p className="text-center text-muted-foreground text-xs italic">{label}</p>
     </div>
   );
 }
@@ -97,16 +97,27 @@ export function BeforeAfterVideoSection() {
           </p>
         </div>
 
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <VideoPlayer
-            src="/transformacao-1.mp4"
-            label="Transformação 1 — Estúdio Josafá Cabral, Tatuapé"
-          />
-          <VideoPlayer
-            src="/transformacao-2.mp4"
-            label="Transformação 2 — Estúdio Josafá Cabral, Tatuapé"
-          />
-          <MediaPlaceholder />
+        <div className="max-w-5xl mx-auto space-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
+            <VideoPlayer
+              src="/transformacao-1.mp4"
+              label="Transformação 1 — Estúdio Josafá Cabral, Tatuapé"
+            />
+            <VideoPlayer
+              src="/transformacao-2.mp4"
+              label="Transformação 2 — Estúdio Josafá Cabral, Tatuapé"
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <PhotoCard
+              src="/antes-depois-2.png"
+              label="Transformação 3 — Estúdio Josafá Cabral, Tatuapé"
+            />
+            <PhotoCard
+              src="/antes-depois-3.jpg"
+              label="Transformação 4 — Estúdio Josafá Cabral, Tatuapé"
+            />
+          </div>
         </div>
       </div>
     </section>
