@@ -1,10 +1,28 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 
 export function CursoSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const video = videoRef.current;
+    if (!container || !video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && !video.paused) {
+          video.pause();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -32,7 +50,7 @@ export function CursoSection() {
           </p>
         </div>
 
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black group aspect-video w-full max-w-3xl mx-auto">
+        <div ref={containerRef} className="relative rounded-2xl overflow-hidden shadow-2xl bg-black group aspect-video w-full max-w-3xl mx-auto">
           <video
             ref={videoRef}
             src="/curso.mp4"

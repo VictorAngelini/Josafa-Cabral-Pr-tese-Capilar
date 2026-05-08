@@ -1,10 +1,28 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 
 function VideoPlayer({ src, label }: { src: string; label: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const video = videoRef.current;
+    if (!container || !video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && !video.paused) {
+          video.pause();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -19,7 +37,7 @@ function VideoPlayer({ src, label }: { src: string; label: string }) {
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div ref={containerRef} className="flex flex-col gap-3">
       <div className="relative aspect-[9/16] max-w-xs mx-auto w-full rounded-2xl overflow-hidden shadow-xl bg-black group">
         <video
           ref={videoRef}
