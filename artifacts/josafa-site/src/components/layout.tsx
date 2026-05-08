@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { FloatingWhatsApp } from "./floating-whatsapp";
 import { Button } from "./ui/button";
-import { MapPin, Phone, Instagram, Clock } from "lucide-react";
+import { MapPin, Phone, Instagram, Facebook, Youtube, Clock } from "lucide-react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const scrollTo = (id: string) => {
@@ -76,6 +76,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <li className="flex items-start gap-3 text-primary-foreground/80">
                   <Instagram className="w-5 h-5 mt-0.5 text-secondary shrink-0" />
                   <a href="https://instagram.com/josafacabralprotesecapilar" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">@josafacabralprotesecapilar</a>
+                </li>
+                <li className="flex items-start gap-3 text-primary-foreground/80">
+                  <Facebook className="w-5 h-5 mt-0.5 text-secondary shrink-0" />
+                  <a href="https://www.facebook.com/josafacabralhair/" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">josafacabralhair</a>
+                </li>
+                <li className="flex items-start gap-3 text-primary-foreground/80">
+                  <Youtube className="w-5 h-5 mt-0.5 text-secondary shrink-0" />
+                  <a href="https://www.youtube.com/@josafacabralprotesecapilar4427" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">Canal no YouTube</a>
                 </li>
               </ul>
             </div>
