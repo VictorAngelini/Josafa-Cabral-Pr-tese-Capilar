@@ -26,7 +26,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-2xl font-bold text-black uppercase tracking-widest" style={{ fontFamily: "'Cinzel', serif" }}>Josafá Cabral</span>
-            <img src="/logo.jpeg" alt="Josafá Cabral Prótese Capilar" className="h-12 w-12 object-cover rounded-sm" />
+            <img src="/logo.jpeg" alt="Josafá Cabral Prótese Capilar" className="h-16 w-16 object-cover rounded-sm" />
           </Link>
           
           <nav className="hidden md:flex items-center gap-8">
