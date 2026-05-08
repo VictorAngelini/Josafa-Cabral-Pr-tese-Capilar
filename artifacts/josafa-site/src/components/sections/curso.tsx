@@ -54,6 +54,7 @@ export function CursoSection() {
           <video
             ref={videoRef}
             src="/curso.mp4"
+            poster="/poster-curso.jpg"
             className="w-full h-full object-contain"
             muted
             playsInline

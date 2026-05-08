@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 
-function VideoPlayer({ src, label }: { src: string; label: string }) {
+function VideoPlayer({ src, label, poster }: { src: string; label: string; poster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -42,6 +42,7 @@ function VideoPlayer({ src, label }: { src: string; label: string }) {
         <video
           ref={videoRef}
           src={src}
+          poster={poster}
           className="w-full h-full object-contain"
           muted
           playsInline
@@ -119,10 +120,12 @@ export function BeforeAfterVideoSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
             <VideoPlayer
               src="/transformacao-1.mp4"
+              poster="/poster-1.jpg"
               label="Transformação 1 — Estúdio Josafá Cabral, Tatuapé"
             />
             <VideoPlayer
               src="/transformacao-2.mp4"
+              poster="/poster-2.jpg"
               label="Transformação 2 — Estúdio Josafá Cabral, Tatuapé"
             />
           </div>
