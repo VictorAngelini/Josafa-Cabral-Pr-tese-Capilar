@@ -3,6 +3,14 @@ import { FloatingWhatsApp } from "./floating-whatsapp";
 import { Button } from "./ui/button";
 import { MapPin, Phone, Instagram, Facebook, Youtube, Clock } from "lucide-react";
 
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+    </svg>
+  );
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   const scrollTo = (id: string) => {
     if (window.location.pathname !== "/") {
@@ -73,17 +81,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <a href="https://wa.me/5511993223453" target="_blank" rel="noopener noreferrer" className="text-sm text-secondary hover:underline">Falar no WhatsApp</a>
                   </div>
                 </li>
-                <li className="flex items-start gap-3 text-primary-foreground/80">
-                  <Instagram className="w-5 h-5 mt-0.5 text-secondary shrink-0" />
-                  <a href="https://instagram.com/josafacabralprotesecapilar" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">@josafacabralprotesecapilar</a>
-                </li>
-                <li className="flex items-start gap-3 text-primary-foreground/80">
-                  <Facebook className="w-5 h-5 mt-0.5 text-secondary shrink-0" />
-                  <a href="https://www.facebook.com/josafacabralhair/" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">josafacabralhair</a>
-                </li>
-                <li className="flex items-start gap-3 text-primary-foreground/80">
-                  <Youtube className="w-5 h-5 mt-0.5 text-secondary shrink-0" />
-                  <a href="https://www.youtube.com/@josafacabralprotesecapilar4427" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">Canal no YouTube</a>
+                <li>
+                  <p className="text-primary-foreground/60 text-xs uppercase tracking-widest mb-3">Redes Sociais</p>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <a href="https://instagram.com/josafacabralprotesecapilar" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-colors text-secondary">
+                      <Instagram className="w-5 h-5" />
+                    </a>
+                    <a href="https://www.facebook.com/josafacabralhair/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-colors text-secondary">
+                      <Facebook className="w-5 h-5" />
+                    </a>
+                    <a href="https://www.youtube.com/@josafacabralprotesecapilar4427" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-colors text-secondary">
+                      <Youtube className="w-5 h-5" />
+                    </a>
+                    <a href="https://www.tiktok.com/@josafacabral0" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-colors text-secondary">
+                      <TikTokIcon className="w-5 h-5" />
+                    </a>
+                  </div>
                 </li>
               </ul>
             </div>
