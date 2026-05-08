@@ -22,7 +22,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
+      <header className="fixed top-0 left-0 right-0 w-full z-50 bg-background/95 border-b border-border" style={{ transform: "translateZ(0)", WebkitTransform: "translateZ(0)" }}>
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <img src="/logo.jpeg" alt="Logo Josafá Cabral" className="h-14 w-14 object-cover rounded-sm shrink-0" />
