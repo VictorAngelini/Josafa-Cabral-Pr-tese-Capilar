@@ -6,7 +6,7 @@ export function AboutSection() {
           <div className="relative">
             <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl relative z-10">
               <img 
-                src="/about.png" 
+                src="/josafa.png" 
                 alt="Josafá realizando consulta" 
                 className="w-full h-full object-cover"
               />
