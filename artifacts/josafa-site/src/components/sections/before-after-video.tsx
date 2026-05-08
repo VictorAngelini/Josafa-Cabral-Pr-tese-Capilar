@@ -35,24 +35,21 @@ function VideoPlayer({ src, label }: { src: string; label: string }) {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         />
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 py-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
             onClick={togglePlay}
-            className="rounded-full bg-background/90 shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-background opacity-90 group-hover:opacity-100"
-            style={{ width: 64, height: 64 }}
+            className="w-9 h-9 rounded-full bg-background/90 flex items-center justify-center hover:bg-background transition-colors shadow"
             aria-label={playing ? "Pausar vídeo" : "Reproduzir vídeo"}
           >
             {playing ? (
-              <Pause className="w-6 h-6 text-primary fill-primary" />
+              <Pause className="w-4 h-4 text-primary fill-primary" />
             ) : (
-              <Play className="w-6 h-6 text-primary fill-primary ml-1" />
+              <Play className="w-4 h-4 text-primary fill-primary ml-0.5" />
             )}
           </button>
-        </div>
-        <div className="absolute bottom-3 right-3">
           <button
             onClick={toggleMute}
-            className="w-9 h-9 rounded-full bg-background/80 flex items-center justify-center hover:bg-background transition-colors"
+            className="w-9 h-9 rounded-full bg-background/90 flex items-center justify-center hover:bg-background transition-colors shadow"
             aria-label={muted ? "Ativar som" : "Silenciar"}
           >
             {muted ? (
@@ -62,7 +59,12 @@ function VideoPlayer({ src, label }: { src: string; label: string }) {
             )}
           </button>
         </div>
-        {!playing && <div className="absolute inset-0 bg-primary/10 pointer-events-none" />}
+        {!playing && (
+          <div
+            className="absolute inset-0 flex items-center justify-center cursor-pointer"
+            onClick={togglePlay}
+          />
+        )}
       </div>
       <p className="text-center text-muted-foreground text-xs italic">{label}</p>
     </div>
