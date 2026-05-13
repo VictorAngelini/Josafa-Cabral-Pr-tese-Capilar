@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { FloatingWhatsApp } from "./floating-whatsapp";
 import { Button } from "./ui/button";
 import { MapPin, Phone, Instagram, Facebook, Youtube, Clock } from "lucide-react";
+import { ThemeToggle } from "./theme-toggle";
 
 function TikTokIcon({ className }: { className?: string }) {
   return (
@@ -27,8 +28,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <Link href="/" className="flex items-center gap-2">
             <img src="/logo.jpeg" alt="Logo Josafá Cabral" className="h-10 w-10 md:h-14 md:w-14 object-cover rounded-sm shrink-0" />
             <div className="flex flex-col leading-tight">
-              <span className="text-base md:text-2xl font-bold text-black uppercase tracking-wide whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>Josafá Cabral</span>
-              <span className="text-xs md:text-sm font-semibold text-black uppercase tracking-wide whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>Prótese Capilar</span>
+              <span className="text-base md:text-2xl font-bold text-foreground uppercase tracking-wide whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>Josafá Cabral</span>
+              <span className="text-xs md:text-sm font-semibold text-foreground uppercase tracking-wide whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>Prótese Capilar</span>
             </div>
           </Link>
           
@@ -40,6 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Button 
               onClick={() => scrollTo("agendamento")}
               className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-4 md:px-6 text-xs md:text-sm h-9 md:h-10"
