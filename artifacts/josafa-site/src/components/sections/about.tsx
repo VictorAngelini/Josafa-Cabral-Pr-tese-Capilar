@@ -4,11 +4,11 @@ export function AboutSection() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative">
-            <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl relative z-10">
+            <div className="rounded-2xl overflow-hidden shadow-2xl relative z-10">
               <img 
                 src="/josafa.png" 
                 alt="Josafá realizando consulta" 
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-contain"
               />
             </div>
             {/* Decorative background element */}
