@@ -1,3 +1,6 @@
+<img width="1887" height="947" alt="image" src="https://github.com/user-attachments/assets/513d62c5-523f-49fb-b5ae-18684d7ef36a" />
+
+
 # Josafá Cabral - Prótese Capilar
 
 Este é o repositório do site oficial para os serviços de prótese capilar do Josafá Cabral. O projeto foi desenvolvido para oferecer uma experiência moderna, permitindo que clientes conheçam o trabalho, vejam resultados e realizem agendamentos online de forma prática.
