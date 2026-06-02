@@ -23,6 +23,8 @@ O projeto utiliza tecnologias modernas de desenvolvimento web, incluindo:
 
 ## Como Executar o Projeto Localmente
 
+Como Executar o Projeto Localmente
+
 Se quiser rodar o projeto em sua máquina local, siga os passos abaixo:
 
 1. **Clone o repositório**:
